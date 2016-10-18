@@ -30,19 +30,26 @@ class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate (SQLiteDatabase database){
+        // TODO:  Define the SQL statement to create a new table with the fields above.
+        // TODO:  Primary key should auto increment
+        // TODO:  Execute the SQL statement
+
         String table = "CREATE TABLE " + DATABASE_TABLE + "("
                 + KEY_FIELD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + FIELD_NAME + " TEXT, "
                 + FIELD_DESCRIPTION + " TEXT, "
                 + FIELD_RATING + " REAL, "
                 + FIELD_IMAGE_NAME + " TEXT" + ")";
-        database.execSQL (table);
+        database.execSQL(table);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase database,
                           int oldVersion,
                           int newVersion) {
+        // TODO:  Execute the SQL statment to drop the table
+        // TODO:  Recreate the database
+
         database.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
         onCreate(database);
     }
@@ -50,103 +57,88 @@ class DBHelper extends SQLiteOpenHelper {
     //********** DATABASE OPERATIONS:  ADD, GETALL, EDIT, DELETE
 
     public void addGame(Game game) {
+
+        // TODO:  Write the code to add a new game to the database
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-
-        //ADD KEY-VALUE PAIR INFORMATION FOR THE GAME NAME
         values.put(FIELD_NAME, game.getName());
-
-        //ADD KEY-VALUE PAIR INFORMATION FOR THE GAME DESCRIPTION
         values.put(FIELD_DESCRIPTION, game.getDescription());
-
-        //ADD KEY-VALUE PAIR INFORMATION FOR THE GAME RATING
         values.put(FIELD_RATING, game.getRating());
-
-        //ADD KEY-VALUE PAIR INFORMATION FOR THE GAME RATING
         values.put(FIELD_IMAGE_NAME, game.getImageName());
-
-        // INSERT THE ROW IN THE TABLE
         db.insert(DATABASE_TABLE, null, values);
-
-        // CLOSE THE DATABASE CONNECTION
         db.close();
     }
 
     public ArrayList<Game> getAllGames() {
         ArrayList<Game> gameList = new ArrayList<>();
+
+        // TODO:  Write the code to get all games from the database and return in ArrayList
+
         SQLiteDatabase database = this.getReadableDatabase();
-        //Cursor cursor = database.rawQuery(queryList, null);
         Cursor cursor = database.query(
                 DATABASE_TABLE,
-                new String[]{KEY_FIELD_ID, FIELD_NAME, FIELD_DESCRIPTION, FIELD_RATING, FIELD_IMAGE_NAME},
+                new String[] {KEY_FIELD_ID, FIELD_NAME, FIELD_DESCRIPTION,
+                        FIELD_RATING, FIELD_IMAGE_NAME},
                 null,
                 null,
-                null, null, null, null );
-
-        //COLLECT EACH ROW IN THE TABLE
-        if (cursor.moveToFirst()){
-            do {
-                Game game =
-                        new Game(cursor.getInt(0),
-                                cursor.getString(1),
-                                cursor.getString(2),
-                                cursor.getFloat(3),
-                                cursor.getString(4));
+                null, null, null, null);
+        if(cursor.moveToFirst()){
+            do{
+                Game game = new Game(cursor.getInt(0),
+                                    cursor.getString(1),
+                                    cursor.getString(2),
+                                    cursor.getFloat(3),
+                                    cursor.getString(4));
                 gameList.add(game);
-            } while (cursor.moveToNext());
+            } while(cursor.moveToNext());
         }
+
         return gameList;
-    }
-
-    public void deleteTask(Game game){
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        // DELETE THE TABLE ROW
-        db.delete(DATABASE_TABLE, KEY_FIELD_ID + " = ?",
-                new String[] {String.valueOf(game.getId())});
-        db.close();
     }
 
     public void deleteAllGames()
     {
+        // TODO:  Write the code to delete all games from the database
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(DATABASE_TABLE, null, null);
         db.close();
     }
 
     public void updateGame(Game game){
+
+        // TODO:  Write the code to update a game in the database.
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-
         values.put(FIELD_NAME, game.getName());
         values.put(FIELD_DESCRIPTION, game.getDescription());
         values.put(FIELD_RATING, game.getRating());
         values.put(FIELD_IMAGE_NAME, game.getImageName());
-
-        db.update(DATABASE_TABLE, values, KEY_FIELD_ID + " = ?",
-                new String[]{String.valueOf(game.getId())});
+        db.update(DATABASE_TABLE, values,
+                KEY_FIELD_ID + " = ?",
+                new String[] {String.valueOf(game.getId())});
+        // Searches for the field above
+        // In this case, we are searching for all fields in the table with
+        // id of the game above, and updating the values
         db.close();
     }
 
     public Game getGame(int id) {
+
+        // TODO:  Write the code to get a specific game from the database
+        // TODO:  Replace the return null statement below with the game from the database.
+
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(
-                DATABASE_TABLE,
-                new String[]{KEY_FIELD_ID, FIELD_NAME, FIELD_DESCRIPTION, FIELD_RATING, FIELD_IMAGE_NAME},
+        Cursor cursor = db.query(DATABASE_TABLE,
+                new String[] {KEY_FIELD_ID, FIELD_NAME, FIELD_DESCRIPTION, FIELD_RATING, FIELD_IMAGE_NAME},
                 KEY_FIELD_ID + "=?",
                 new String[]{String.valueOf(id)},
-                null, null, null, null );
-
-        if (cursor != null)
-            cursor.moveToFirst();
-
+                null, null, null, null);
         Game game = new Game(
-                cursor.getInt(0),
                 cursor.getString(1),
                 cursor.getString(2),
                 cursor.getFloat(3),
                 cursor.getString(4));
-
         db.close();
         return game;
     }
