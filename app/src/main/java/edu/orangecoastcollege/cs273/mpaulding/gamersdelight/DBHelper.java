@@ -129,16 +129,23 @@ class DBHelper extends SQLiteOpenHelper {
         // TODO:  Replace the return null statement below with the game from the database.
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(DATABASE_TABLE,
+        Cursor cursor = db.query(
+                DATABASE_TABLE,
                 new String[] {KEY_FIELD_ID, FIELD_NAME, FIELD_DESCRIPTION, FIELD_RATING, FIELD_IMAGE_NAME},
                 KEY_FIELD_ID + "=?",
                 new String[]{String.valueOf(id)},
                 null, null, null, null);
+
+        if(cursor != null)
+            cursor.moveToFirst();
+
         Game game = new Game(
+                cursor.getInt(0),
                 cursor.getString(1),
                 cursor.getString(2),
                 cursor.getFloat(3),
                 cursor.getString(4));
+
         db.close();
         return game;
     }

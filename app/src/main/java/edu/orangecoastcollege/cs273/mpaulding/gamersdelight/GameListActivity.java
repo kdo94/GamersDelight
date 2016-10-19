@@ -1,5 +1,6 @@
 package edu.orangecoastcollege.cs273.mpaulding.gamersdelight;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -33,6 +34,7 @@ public class GameListActivity extends AppCompatActivity {
         db.addGame(new Game("The Division", "Single player experience", 3.5f, "division.png"));
         db.addGame(new Game("Doom FLH", "First person shooter", 2.5f, "doomflh.png"));
         db.addGame(new Game("Battlefield 1", "Single player campaign", 5.0f, "battlefield1.png"));
+        db.addGame(new Game("Test", "Test", 5.0f));
 
         // TODO:  Populate all games from the database into the list
 
@@ -44,6 +46,7 @@ public class GameListActivity extends AppCompatActivity {
 
         // TODO:  Connect the ListView with the ListAdapter
 
+        gamesListView = (ListView) findViewById(R.id.gameListView);
         gamesListView.setAdapter(gamesListAdapter);
 
         nameEditText = (EditText) findViewById(R.id.nameEditText);
@@ -54,7 +57,18 @@ public class GameListActivity extends AppCompatActivity {
     public void viewGameDetails(View view) {
 
         // TODO: Use an Intent to start the GameDetailsActivity with the data it needs to correctly inflate its views.
+        Intent gameDetails = new Intent(this, GameDetailsActivity.class);
+        Game game = db.getGame(Integer.parseInt(view.getTag().toString()));
+        String gameName = game.getName();
+        String gameDesc = game.getDescription();
+        float gameRating = game.getRating();
+        String gameImage = game.getImageName();
 
+        gameDetails.putExtra("Game Name", gameName);
+        gameDetails.putExtra("Game Description", gameDesc);
+        gameDetails.putExtra("Game Rating", gameRating);
+        gameDetails.putExtra("Game Image", gameImage);
+        startActivity(gameDetails);
     }
 
     public void addGame(View view)
@@ -70,11 +84,11 @@ public class GameListActivity extends AppCompatActivity {
         }
         else{
             Game newGame = new Game(name, desc, rating);
-            db.addGame(newGame);
             gamesListAdapter.add(newGame);
+            db.addGame(newGame);
             nameEditText.setText("");
             descriptionEditText.setText("");
-            gameRatingBar.setRating(0);
+            gameRatingBar.setRating(0f);
         }
     }
 

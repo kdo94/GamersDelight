@@ -62,13 +62,13 @@ public class GameListAdapter extends ArrayAdapter<Game> {
         View view = inflater.inflate(mResourceId, null);
 
         //TODO:  Code for getting the view of a list item correctly inflated.
-        gameListLinearLayout = (LinearLayout) convertView.findViewById(R.id.gameListLinearLayout);
-        gameListImageView = (ImageView) convertView.findViewById(R.id.gameListImageView);
-        gameListNameTextView = (TextView) convertView.findViewById(R.id.gameListNameTextView);
-        gameListDescriptionTextView = (TextView) convertView.findViewById(R.id.gameListDescriptionTextView);
-        gameListRatingBar = (RatingBar) convertView.findViewById(R.id.gameRatingBar);
+        gameListLinearLayout = (LinearLayout) view.findViewById(R.id.gameListLinearLayout);
+        gameListImageView = (ImageView) view.findViewById(R.id.gameListImageView);
+        gameListNameTextView = (TextView) view.findViewById(R.id.gameListNameTextView);
+        gameListDescriptionTextView = (TextView) view.findViewById(R.id.gameListDescriptionTextView);
+        gameListRatingBar = (RatingBar) view.findViewById(R.id.gameListRatingBar);
         Game selectedGame = mGamesList.get(pos);
-        gameListLinearLayout.setTag(selectedGame);
+        gameListLinearLayout.setTag(selectedGame.getId());
         gameListNameTextView.setText(selectedGame.getName());
         gameListDescriptionTextView.setText(selectedGame.getDescription());
         gameListRatingBar.setRating(selectedGame.getRating());
