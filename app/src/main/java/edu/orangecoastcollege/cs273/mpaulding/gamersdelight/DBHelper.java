@@ -47,7 +47,7 @@ class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase database,
                           int oldVersion,
                           int newVersion) {
-        // TODO:  Execute the SQL statment to drop the table
+        // TODO:  Execute the SQL statement to drop the table
         // TODO:  Recreate the database
 
         database.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
@@ -140,7 +140,7 @@ class DBHelper extends SQLiteOpenHelper {
             cursor.moveToFirst();
 
         Game game = new Game(
-                cursor.getInt(0),
+                //cursor.getInt(0),
                 cursor.getString(1),
                 cursor.getString(2),
                 cursor.getFloat(3),

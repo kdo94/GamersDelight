@@ -79,6 +79,7 @@ public class GameListActivity extends AppCompatActivity {
         String name = nameEditText.getText().toString();
         String desc = descriptionEditText.getText().toString();
         float rating = gameRatingBar.getRating();
+
         if(name.isEmpty() || desc.isEmpty()){
             Toast.makeText(this, "Fields may not be empty.", Toast.LENGTH_SHORT).show();
         }
