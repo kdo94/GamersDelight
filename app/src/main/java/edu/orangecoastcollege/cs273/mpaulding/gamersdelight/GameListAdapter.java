@@ -68,7 +68,7 @@ public class GameListAdapter extends ArrayAdapter<Game> {
         gameListDescriptionTextView = (TextView) view.findViewById(R.id.gameListDescriptionTextView);
         gameListRatingBar = (RatingBar) view.findViewById(R.id.gameListRatingBar);
         Game selectedGame = mGamesList.get(pos);
-        gameListLinearLayout.setTag(selectedGame.getId());
+        gameListLinearLayout.setTag(selectedGame);
         gameListNameTextView.setText(selectedGame.getName());
         gameListDescriptionTextView.setText(selectedGame.getDescription());
         gameListRatingBar.setRating(selectedGame.getRating());
@@ -76,7 +76,7 @@ public class GameListAdapter extends ArrayAdapter<Game> {
         AssetManager am = mContext.getAssets();
         try{
             InputStream stream = am.open(selectedGame.getImageName());
-            Drawable event = Drawable.createFromStream(stream, selectedGame.getName());
+            Drawable event = Drawable.createFromStream(stream, selectedGame.getImageName());
             gameListImageView.setImageDrawable(event);
         }
         catch (IOException e){

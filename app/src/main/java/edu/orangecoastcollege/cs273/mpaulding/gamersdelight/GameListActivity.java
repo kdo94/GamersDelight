@@ -58,7 +58,7 @@ public class GameListActivity extends AppCompatActivity {
 
         // TODO: Use an Intent to start the GameDetailsActivity with the data it needs to correctly inflate its views.
         Intent gameDetails = new Intent(this, GameDetailsActivity.class);
-        Game game = db.getGame(Integer.parseInt(view.getTag().toString()));
+        Game game = (Game) view.getTag();
         String gameName = game.getName();
         String gameDesc = game.getDescription();
         float gameRating = game.getRating();
